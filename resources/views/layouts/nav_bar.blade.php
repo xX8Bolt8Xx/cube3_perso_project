@@ -43,7 +43,7 @@
     <nav class="d-flex align-items-center gap-3">
         <a href="{{route('encheres')}}" class="text-white text-decoration-none">Enchères</a>
         <a href="#" class="text-white text-decoration-none">Vendre</a>
-        <a href="#" class="text-white text-decoration-none">À propos</a>
+        <a href="{{route('contact')}}" class="text-white text-decoration-none">Contact</a>
         <a href="#" class="btn btn-outline-warning ms-3">Connexion</a>
     </nav>
 </header>

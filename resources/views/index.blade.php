@@ -4,7 +4,7 @@
     <div class="p-4 rounded">
         <h1 class="display-3 fw-bold mb-3">Trouvez des pièces uniques.</h1>
         <h1 class="display-3 fw-bold mb-3">Misez. Gagnez.</h1>
-        <a href="#" class="btn btn-warning btn-lg shadow">Voir les enchères en cours</a>
+        <a href="{{route('encheres')}}" class="btn btn-warning btn-lg shadow">Voir les enchères en cours</a>
     </div>
 </section>
 
