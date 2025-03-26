@@ -32,21 +32,26 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
+        // Validation des données
         $request->validate([
             'name' => 'required|string',
             'end_time' => 'required|string',
             'price' => 'required|numeric',
-            'image' => 'required|string'
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validation pour l'image
         ]);
 
-        // Créer l'item et l'enregistrer en base de données
+        // Enregistrement de l'image
+        $imagePath = $request->file('image')->store('images', 'public'); // Stocker l'image dans le dossier public/images
+
+        // Créer l'item et l'enregistrer dans la base de données
         $item = Item::create([
             'name' => $request->name,
             'end_time' => $request->end_time,
             'price' => $request->price,
-            'image' => $request->image,
+            'image' => $imagePath, // Chemin de l'image
         ]);
 
+        // Redirection vers la page index des items avec un message de succès
         return redirect()->route('items.index')->with('success', 'Item created successfully.');
     }
 

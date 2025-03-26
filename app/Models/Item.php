@@ -9,6 +9,6 @@ class Item extends Model
 {
     use HasFactory;
 
-    // Les colonnes de la table autorisées pour la création ou l'update
+    // Les colonnes autorisées pour la création ou l'update
     protected $fillable = ['name', 'end_time', 'price', 'image'];
 }
