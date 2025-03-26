@@ -2,18 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
 {
-    /** @use HasFactory<\Database\Factories\ArticleFactory> */
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'end_time',
-        'price',
-        'image',
-
-    ];
+    // Les colonnes de la table autorisées pour la création ou l'update
+    protected $fillable = ['name', 'end_time', 'price', 'image'];
 }

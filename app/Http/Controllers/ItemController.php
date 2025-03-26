@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Item;
 
 class ItemController extends Controller
 {
@@ -11,7 +12,10 @@ class ItemController extends Controller
      */
     public function index()
     {
-        //
+        $items = Item::all();
+
+        // Passe les items à la vue "browser"
+        return view('browser', compact('items'));
     }
 
     /**
@@ -19,7 +23,8 @@ class ItemController extends Controller
      */
     public function create()
     {
-        //
+        $items = Item::all();
+        return view('sell', compact('items'));
     }
 
     /**
@@ -27,7 +32,22 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string',
+            'end_time' => 'required|string',
+            'price' => 'required|numeric',
+            'image' => 'required|string'
+        ]);
+
+        // Créer l'item et l'enregistrer en base de données
+        $item = Item::create([
+            'name' => $request->name,
+            'end_time' => $request->end_time,
+            'price' => $request->price,
+            'image' => $request->image,
+        ]);
+
+        return redirect()->route('items.index')->with('success', 'Item created successfully.');
     }
 
     /**

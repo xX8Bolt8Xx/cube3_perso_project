@@ -4,7 +4,7 @@
     <section class="form-section">
         <div class="container">
             <h2 class="text-center mb-5 form-title">Vendre un objet aux enchères</h2>
-            <form class="mx-auto" style="max-width: 600px;">
+            <form method="post" action="{{route('items.store')}}" class="mx-auto" style="max-width: 600px;">
                 <div class="mb-3">
                     <label for="itemName" class="form-label">Nom de l'objet</label>
                     <input type="text" class="form-control" id="itemName" required>

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ItemController;
 
 Route::get('/', function () {
     return view('home');
@@ -14,6 +15,16 @@ Route::get('/browser', function () {
     return view('browser');
 })->name('browser');
 
-Route::resource('items', ItemController::class)/*->middleware(['auth'])*/;
+
+
+// Route pour la liste des items
+Route::get('/items', [ItemController::class, 'index'])->name('items.index');
+
+// Route pour créer des items (store)
+Route::post('/items', [ItemController::class, 'store'])->name('items.store');
+
+// Si nécessaire, d'autres routes pour voir les pages de création ou édition
+Route::get('/items/create', [ItemController::class, 'create'])->name('items.create');
+
 
 
