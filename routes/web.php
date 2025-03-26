@@ -3,13 +3,17 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('index');
-})->name('index');
-
-Route::get('/encheres', function () {
-    return view('encheres.index');
-})->name('encheres');
+    return view('home');
+})->name('home');
 
 Route::get('/contact', function () {
-    return view('contact.index');
+    return view('contact');
 })->name('contact');
+
+Route::get('/browser', function () {
+    return view('browser');
+})->name('browser');
+
+Route::resource('items', ItemController::class)/*->middleware(['auth'])*/;
+
+

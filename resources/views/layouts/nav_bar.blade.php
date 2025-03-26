@@ -11,10 +11,15 @@
             font-family: 'Inter', sans-serif;
         }
         .hero-section {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-            url('https://images.unsplash.com/photo-1593642532842-98d0fd5ebc1a') center/cover no-repeat;
+            background: linear-gradient(135deg, #121926 0%, #1e293b 100%);
+            color: white;
             height: 70vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
         }
+
         .card img {
             max-height: 220px;
             width: 100%;
@@ -39,10 +44,10 @@
 </head>
 <body class="bg-light text-dark">
 <header class="bg-dark text-white py-3 px-4 d-flex justify-content-between align-items-center shadow">
-    <a href="{{route('index')}}" class="fw-bold fs-4 text-white text-decoration-none">Auction House</a>
+    <a href="{{route('home')}}" class="fw-bold fs-4 text-white text-decoration-none">Auction House</a>
     <nav class="d-flex align-items-center gap-3">
-        <a href="{{route('encheres')}}" class="text-white text-decoration-none">Enchères</a>
-        <a href="#" class="text-white text-decoration-none">Vendre</a>
+        <a href="{{route('browser')}}" class="text-white text-decoration-none">Enchères</a>
+        <a href="{{route('sell')}}" class="text-white text-decoration-none">Vendre</a>
         <a href="{{route('contact')}}" class="text-white text-decoration-none">Contact</a>
         <a href="#" class="btn btn-outline-warning ms-3">Connexion</a>
     </nav>
