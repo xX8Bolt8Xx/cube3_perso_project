@@ -45,4 +45,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function Items(){
+        return $this->belongsToMany('App\Models\Item');
+    }
 }

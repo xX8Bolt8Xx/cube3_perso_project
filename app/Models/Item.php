@@ -11,4 +11,10 @@ class Item extends Model
 
     // Les colonnes autorisées pour la création ou l'update
     protected $fillable = ['name', 'end_time', 'price', 'image'];
+
+    public function Users(){
+        return $this->belongsToMany('App\Models\User');
+    }
+
 }
+

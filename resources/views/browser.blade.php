@@ -1,72 +1,38 @@
 @extends('layouts.nav_bar')
-@section('content')
 
+@section('content')
     <section class="container my-5">
         <h1 class="text-center mb-4 fw-bold text-primary">Objets actuellement aux enchères</h1>
 
-        <table border="1">
-            <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Heure de fin</th>
-                <th>Prix</th>
-                <th>Image</th>
-            </tr>
-            </thead>
-            <tbody>
+        <!-- Introduction ou texte d'accompagnement -->
+        <div class="text-center mb-4">
+            <p class="lead text-muted">Découvrez les objets en vente aux enchères et faites vos offres avant qu'il ne soit trop tard!</p>
+        </div>
+
+        <!-- Grille responsive pour les cartes -->
+        <div class="row row-cols-1 row-cols-md-3 g-4">
             @foreach ($items as $item)
-                <tr>
-                    <td>{{ $item->name }}</td>
-                    <td>{{ $item->end_time }}</td>
-                    <td>{{ number_format($item->price, 2) }} €</td>
-                    <td>
-                        <img src="{{ $item->image }}" alt="Image de {{ $item->name }}" style="width: 100px; height: auto;">
-                    </td>
-                </tr>
+                <div class="col">
+                    <div class="card shadow-lg border-light rounded h-100">
+                        <!-- Image de l'objet avec un style amélioré -->
+                        <img src="{{$item->image}}" class="card-img-top" alt="Image de {{ $item->name }}" style="object-fit: cover; height: 250px;">
+
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title text-center text-primary">{{ $item->name }}</h5>
+                            <p class="card-text text-muted">Fin : {{ $item->end_time }}</p>
+                            <p class="card-text text-success fs-4 mb-3">Prix de départ : €{{ number_format($item->price, 2) }}</p>
+
+                            <!-- Ajouter un bouton ou un lien pour plus d'interaction -->
+                            <a href="{{ route('items.show', $item->id) }}" class="btn btn-primary mt-auto">Voir plus</a>
+                        </div>
+                    </div>
+                </div>
             @endforeach
-            </tbody>
-        </table>
+        </div>
 
         {{-- Affiche un message s'il n'y a aucun item --}}
         @if ($items->isEmpty())
-            <p>Aucun item trouvé!</p>
+            <p class="text-center mt-4">Aucun item trouvé! Revenez plus tard.</p>
         @endif
-
-        {{--        <div class="row g-4">--}}
-{{--            <div class="col-md-4">--}}
-{{--                <div class="card shadow-sm border-0">--}}
-{{--                    <img src="https://media.rolex.com/image/upload/q_auto:best/f_auto/c_limit,w_3840/v1727258031/rolexcom/collection/family-pages/professional-watches/submariner/top-navigation/professional-watches-submariner-all-models-navigation_m126603-0001_2210jva_001" class="card-img-top" alt="Montre de luxe">--}}
-{{--                    <div class="card-body">--}}
-{{--                        <h5 class="card-title">Montre Rolex Submariner</h5>--}}
-{{--                        <p class="card-text">Actuellement: <strong>8 500€</strong><br>Temps restant: <span class="text-danger">02:45:10</span></p>--}}
-{{--                        <a href="#" class="btn btn-outline-primary btn-sm">Enchérir</a>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-
-{{--            <div class="col-md-4">--}}
-{{--                <div class="card shadow-sm border-0">--}}
-{{--                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/Ferrari_308GTB_Lightweight_%281976%29_-_14453314104.jpg" class="card-img-top" alt="Voiture de collection">--}}
-{{--                    <div class="card-body">--}}
-{{--                        <h5 class="card-title">Ferrari 308 GTS</h5>--}}
-{{--                        <p class="card-text">Actuellement: <strong>74 000€</strong><br>Temps restant: <span class="text-danger">01:12:33</span></p>--}}
-{{--                        <a href="#" class="btn btn-outline-primary btn-sm">Enchérir</a>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-
-{{--            <div class="col-md-4">--}}
-{{--                <div class="card shadow-sm border-0">--}}
-{{--                    <img src="https://artfr.fr/cdn/shop/products/MON6505_2048x.jpg?v=1650964547" class="card-img-top" alt="Peinture">--}}
-{{--                    <div class="card-body">--}}
-{{--                        <h5 class="card-title">Peinture de maître</h5>--}}
-{{--                        <p class="card-text">Actuellement: <strong>12 300€</strong><br>Temps restant: <span class="text-danger">03:08:20</span></p>--}}
-{{--                        <a href="#" class="btn btn-outline-primary btn-sm">Enchérir</a>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
     </section>
-
-
 @endsection

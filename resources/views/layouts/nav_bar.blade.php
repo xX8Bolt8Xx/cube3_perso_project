@@ -46,10 +46,10 @@
 <header class="bg-dark text-white py-3 px-4 d-flex justify-content-between align-items-center shadow">
     <a href="{{route('home')}}" class="fw-bold fs-4 text-white text-decoration-none">Auction House</a>
     <nav class="d-flex align-items-center gap-3">
-        <a href="{{route('browser')}}" class="text-white text-decoration-none">Enchères</a>
+        <a href="{{route('items.index')}}" class="text-white text-decoration-none">Enchères</a>
         <a href="{{route('items.create')}}" class="text-white text-decoration-none">Vendre</a>
         <a href="{{route('contact')}}" class="text-white text-decoration-none">Contact</a>
-        <a href="#" class="btn btn-outline-warning ms-3">Connexion</a>
+        <a href="{{route('login')}}" class="btn btn-outline-warning ms-3">Connexion</a>
     </nav>
 </header>
 

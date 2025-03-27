@@ -35,20 +35,20 @@ class ItemController extends Controller
         // Validation des données
         $request->validate([
             'name' => 'required|string',
-            'end_time' => 'required|string',
+            'end_time' => 'string|date',
             'price' => 'required|numeric',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validation pour l'image
+            'image' => 'required|string', // Validation pour l'image
         ]);
 
         // Enregistrement de l'image
-        $imagePath = $request->file('image')->store('images', 'public'); // Stocker l'image dans le dossier public/images
+//        $imagePath = $request->file('image')->store('images', 'public'); // Stocker l'image dans le dossier public/images
 
         // Créer l'item et l'enregistrer dans la base de données
         $item = Item::create([
             'name' => $request->name,
             'end_time' => $request->end_time,
             'price' => $request->price,
-            'image' => $imagePath, // Chemin de l'image
+            'image' => $request->image, // Chemin de l'image
         ]);
 
         // Redirection vers la page index des items avec un message de succès
@@ -58,32 +58,57 @@ class ItemController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Item $item)
     {
-        //
+        return view('show', compact('item'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $item = Item::findOrFail($id); // Trouver l'item par son ID
+        return view('edit', compact('item')); // Passer l'item à la vue
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        // Validation des données
+        $request->validate([
+            'name' => 'required|string',
+            'price' => 'required|numeric',
+            'image' => 'nullable|string', // On traite simplement l'image comme une chaîne de caractères
+            'end_time' => 'required|date',
+        ]);
+
+        // Trouver l'item
+        $item = Item::findOrFail($id);
+
+        // Mise à jour des données
+        $item->name = $request->input('name');
+        $item->price = $request->input('price');
+        $item->end_time = $request->input('end_time');
+
+        // Si une nouvelle image est fournie, la mettre à jour
+        if ($request->filled('image')) {
+            $item->image = $request->input('image'); // Mettre à jour l'URL de l'image
+        }
+
+        // Sauvegarder les modifications
+        $item->save();
+
+        // Redirection après mise à jour
+        return redirect()->route('items.show', $item->id)->with('success', 'Item mis à jour avec succès.');
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Item $item)
     {
-        //
+        $item->delete();
+        return redirect()->route('items.index')->with('success', 'Item deleted successfully.');
     }
 }

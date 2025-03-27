@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
@@ -11,14 +12,16 @@ Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
 
-// Route pour la page browser, qui appelle maintenant la méthode index du contrôleur
-Route::get('/browser', [ItemController::class, 'index'])->name('browser');
+Route::resource('items', itemController::class);
 
-// Route pour la liste des items
-Route::get('/items', [ItemController::class, 'index'])->name('items.index');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-// Route pour créer des items (store)
-Route::post('/items', [ItemController::class, 'store'])->name('items.store');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-// Si nécessaire, d'autres routes pour voir les pages de création ou édition
-Route::get('/items/create', [ItemController::class, 'create'])->name('items.create');
+require __DIR__.'/auth.php';
