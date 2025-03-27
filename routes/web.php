@@ -12,6 +12,10 @@ Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
 
+Route::get('/usr_crea', function () {
+    return view('usr_crea');
+})->name('usr_crea');
+
 Route::resource('items', itemController::class);
 
 Route::get('/dashboard', function () {
