@@ -42,21 +42,21 @@
         }
     </style>
 </head>
-<body class="bg-light text-dark">
+<body class="d-flex flex-column min-vh-100 bg-light text-dark">
 <header class="bg-dark text-white py-3 px-4 d-flex justify-content-between align-items-center shadow">
     <a href="{{route('home')}}" class="fw-bold fs-4 text-white text-decoration-none">Auction House</a>
     <nav class="d-flex align-items-center gap-3">
         <a href="{{route('items.index')}}" class="text-white text-decoration-none">Enchères</a>
         <a href="{{route('items.create')}}" class="text-white text-decoration-none">Vendre</a>
-            <a href="{{route('contact')}}" class="text-white text-decoration-none">Contact</a>
+        <a href="{{route('contact')}}" class="text-white text-decoration-none">Contact</a>
         <a href="{{route('usr_crea')}}" class="btn btn-outline-warning ms-3">Creer un compte</a>
     </nav>
 </header>
 
 @yield('content')
 
-<footer class="bg-dark text-white text-center py-4 mt-5">
-    &copy; 2025 Enchères Prestige — Tous droits réservés
+<footer class="bg-dark text-white text-center py-4 mt-auto">
+    © 2025 Enchères Prestige — Tous droits réservés
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
