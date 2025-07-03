@@ -48,7 +48,7 @@
     <nav class="d-flex align-items-center gap-3">
         <a href="{{route('items.index')}}" class="text-white text-decoration-none">Enchères</a>
         <a href="{{route('items.create')}}" class="text-white text-decoration-none">Vendre</a>
-        <a href="{{route('contact')}}" class="text-white text-decoration-none">Contact</a>
+            <a href="{{route('contact')}}" class="text-white text-decoration-none">Contact</a>
         <a href="{{route('usr_crea')}}" class="btn btn-outline-warning ms-3">Creer un compte</a>
     </nav>
 </header>
