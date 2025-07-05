@@ -4,9 +4,9 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::get('/', [ItemController::class, 'home'])->name('home');
+
+Route::view('/centres', 'centres')->name('centres');
 
 Route::get('/contact', function () {
     return view('contact');

@@ -8,12 +8,22 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="rounded shadow-sm p-4" style="background-color: #f9f9f9;">
-                    <form method="POST" action="{{ route('items.store') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('centres.store') }}" enctype="multipart/form-data">
                     @csrf
 
                         <div class="mb-3">
                             <label for="name" class="form-label">Nom de l'objet</label>
                             <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="latitude" class="form-label">Latitude</label>
+                            <input type="number" class="form-control" id="latitude" name="latitude" value="{{ old('price') }}" step="0.01" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="longitude" class="form-label">Longitude</label>
+                            <input type="number" class="form-control" id="longitude" name="longitude" value="{{ old('price') }}" step="0.01" required>
                         </div>
 
                         <div class="mb-3">

@@ -32,28 +32,33 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        // Validation des données
         $request->validate([
-            'name' => 'required|string',
-            'end_time' => 'string|date',
-            'price' => 'required|numeric',
-            'image' => 'required|string', // Validation pour l'image
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'image_file' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
+            'image_url' => 'nullable|url',
         ]);
 
-        // Enregistrement de l'image
-//        $imagePath = $request->file('image')->store('images', 'public'); // Stocker l'image dans le dossier public/images
+        // Gestion de l'image
+        if ($request->hasFile('image_file')) {
+            $imagePath = $request->file('image_file')->store('centres', 'public');
+        } elseif ($request->filled('image_url')) {
+            $imagePath = $request->input('image_url');
+        } else {
+            $imagePath = null;
+        }
 
-        // Créer l'item et l'enregistrer dans la base de données
-        $item = Item::create([
+        // Création du centre (ou de l’objet)
+        Centres::create([
             'name' => $request->name,
-            'end_time' => $request->end_time,
             'price' => $request->price,
-            'image' => $request->image, // Chemin de l'image
+            'image' => $imagePath,
+            // Ajoute les autres champs si besoin (lat, long, description, etc.)
         ]);
 
-        // Redirection vers la page index des items avec un message de succès
-        return redirect()->route('items.index')->with('success', 'Item created successfully.');
+        return redirect()->route('centres.index')->with('success', 'Centre ajouté avec succès !');
     }
+
 
     /**
      * Display the specified resource.
@@ -101,7 +106,11 @@ class ItemController extends Controller
         // Redirection après mise à jour
         return redirect()->route('items.show', $item->id)->with('success', 'Item mis à jour avec succès.');
     }
-
+    public function home()
+    {
+        $items = Item::latest()->take(3)->get(); // récupère les 3 derniers objets
+        return view('home', compact('items'));
+    }
 
     /**
      * Remove the specified resource from storage.
