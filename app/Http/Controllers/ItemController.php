@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Item;
 
+
 class ItemController extends Controller
 {
     /**
@@ -35,13 +36,20 @@ class ItemController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
-            'image_file' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
-            'image_url' => 'nullable|url',
+            'end_time' => 'required|date|after:now',
+
+
+            // L'un des deux est requis :
+            'image_file' => 'required_without:image_url|nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
+            'image_url'  => 'required_without:image_file|nullable|url',
+        ], [
+            'image_file.required_without' => 'Vous devez fournir une image ou une URL.',
+            'image_url.required_without'  => 'Vous devez fournir une image ou une URL.',
         ]);
 
         // Gestion de l'image
         if ($request->hasFile('image_file')) {
-            $imagePath = $request->file('image_file')->store('centres', 'public');
+            $imagePath = $request->file('image_file')->store('items', 'public');
         } elseif ($request->filled('image_url')) {
             $imagePath = $request->input('image_url');
         } else {
@@ -49,14 +57,14 @@ class ItemController extends Controller
         }
 
         // Création du centre (ou de l’objet)
-        Centres::create([
+        Item::create([
             'name' => $request->name,
             'price' => $request->price,
             'image' => $imagePath,
-            // Ajoute les autres champs si besoin (lat, long, description, etc.)
+            'end_time' => $request->end_time, // ✅ AJOUT ICI
         ]);
 
-        return redirect()->route('centres.index')->with('success', 'Centre ajouté avec succès !');
+        return redirect()->route('items.index')->with('success', 'Objet mis en vente avec succès !');
     }
 
 

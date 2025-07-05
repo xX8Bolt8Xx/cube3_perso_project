@@ -2,87 +2,82 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\centres;
-use App\Http\Requests\StorecentresRequest;
-use App\Http\Requests\UpdatecentresRequest;
+use Illuminate\Http\Request;
 
 class CentresController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+
     public function index()
     {
-        //
+        $centres = Centres::latest()->paginate(10);
+        return view('centres.index', compact('centres'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        $centres = Centre::all();
-        return view('createcentre', compact('centres'));
+        return view('centres.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'name' => 'required|string|max:255',
-            'image' => 'required|image',
-            'latitude' => 'required|numeric',
-            'longitude' => 'required|numeric',
-            'description' => 'required|string|max:255',
+            'image_file' => 'image|max:2048',
+            'image_url' => 'nullable|url',
+            'latitude' => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
+            'description' => 'nullable|string',
         ]);
 
-        $path = null;
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('centres', 'public');
+        if($request->hasFile('image_file')) {
+            $data['image'] = $request->file('image_file')->store('centres', 'public');
+        } elseif ($request->filled('image_url')) {
+            $data['image'] = $data['image_url'];
         }
 
-        Centres::create([
-            'name' => $request->name,
-            'image' => $path,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
-            'description' => $request->description,
+        Centres::create($data);
+        return redirect()->route('centres.index')->with('success','Centre créé');
+    }
+
+    public function show(Centres $centre)
+    {
+        return view('centres.show', compact('centre'));
+    }
+
+    public function edit(Centres $centre)
+    {
+        return view('centres.edit', compact('centre'));
+    }
+
+    public function update(Request $request, Centres $centre)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'image_file' => 'nullable|image|max:2048',
+            'image_url' => 'nullable|url',
+            'latitude' => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
+            'description' => 'nullable|string',
         ]);
 
-        return redirect()->back()->with('success', 'Centre ajouté !');
+        if($request->hasFile('image_file')) {
+            $data['image'] = $request->file('image_file')->store('centres', 'public');
+        } elseif ($request->filled('image_url')) {
+            $data['image'] = $data['image_url'];
+        }
+
+        $centre->update($data);
+        return redirect()->route('centres.index')->with('success','Centre modifié');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(centres $centres)
+    public function destroy(Centres $centre)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(centres $centres)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatecentresRequest $request, centres $centres)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(centres $centres)
-    {
-        //
+        $centre->delete();
+        return redirect()->route('centres.index')->with('success','Centre supprimé');
     }
 }
+
