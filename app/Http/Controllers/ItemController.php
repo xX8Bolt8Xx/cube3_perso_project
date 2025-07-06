@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Item;
-
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller; // ✅ Bon import
 
 class ItemController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+
     /**
      * Display a listing of the resource.
      */

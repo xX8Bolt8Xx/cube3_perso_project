@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Centres;
+use Illuminate\Routing\Controller; // ✅ Bon import
 
 class CentresController extends Controller
 {
