@@ -5,9 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller; // ✅ Bon import
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class ItemController extends Controller
 {
+
+    public function exportPdf($id)
+    {
+        $item = Item::findOrFail($id);
+        $pdf = Pdf::loadView('pdf.item', compact('item'));
+        return $pdf->download('item_' . $item->id . '.pdf');
+    }
 
     public function __construct()
     {

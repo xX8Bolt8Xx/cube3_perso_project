@@ -24,6 +24,9 @@
                             <!-- Boutons d'actions (modifier et supprimer) -->
                             <div class="d-flex justify-content-between mt-4">
                                 <a href="{{ route('items.edit', $item->id) }}" class="btn btn-warning">Modifier</a>
+                                <a href="{{ route('items.exportPdf', $item->id) }}" class="btn btn-sm btn-primary">
+                                    <i data-feather="download"></i> Exporter en PDF
+                                </a>
                                 <form action="{{ route('items.destroy', $item->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')

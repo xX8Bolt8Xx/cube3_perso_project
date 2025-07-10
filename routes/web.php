@@ -30,4 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/items/{id}/export-pdf', [ItemController::class, 'exportPdf'])->name('items.exportPdf');
+
+
 require __DIR__.'/auth.php';
